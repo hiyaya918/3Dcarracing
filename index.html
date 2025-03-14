@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Racing Game - Experience High-Speed Racing Adventure</title>
+    <meta name="description" content="Immerse yourself in an exciting car racing game. Experience high-speed thrills and compete against time in this addictive racing simulator.">
+    <link rel="canonical" href="https://your-domain.com/car-racing" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <header class="bg-white shadow-sm">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-gray-900 font-semibold text-lg">Car Racing</div>
+                <div class="hidden sm:flex space-x-8">
+                    <a href="#game" class="text-gray-600 hover:text-gray-900">Play Now</a>
+                    <a href="#about" class="text-gray-600 hover:text-gray-900">About</a>
+                    <a href="#features" class="text-gray-600 hover:text-gray-900">Features</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <section class="text-center mb-16">
+            <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">Experience the Ultimate Car Racing Adventure</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">Push your limits in this high-octane racing simulator where speed meets skill.</p>
+        </section>
+
+        <section id="game" class="mb-16">
+            <div class="max-w-full aspect-w-16 aspect-h-9 bg-gray-100 rounded-lg overflow-hidden shadow-lg relative group">
+                <iframe src="https://racing.pmnd.rs/" 
+                        class="w-full h-[80vh] md:h-[85vh] lg:h-[90vh]" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                </iframe>
+                <button onclick="document.querySelector('iframe').requestFullscreen()" 
+                        class="absolute bottom-4 right-4 bg-white/80 hover:bg-white px-4 py-2 rounded-lg shadow-sm text-gray-700 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    全屏模式
+                </button>
+            </div>
+        </section>
+
+        <section id="about" class="mb-16">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">About the Game</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="space-y-4">
+                    <p class="text-gray-600">Immerse yourself in an adrenaline-pumping racing experience where every second counts. Master different tracks, improve your lap times, and compete for the top position.</p>
+                    <p class="text-gray-600">Whether you're a casual player or a racing enthusiast, our game offers the perfect balance of accessibility and challenge.</p>
+                </div>
+                <div class="space-y-4">
+                    <h3 class="text-xl font-semibold text-gray-900">Game Features</h3>
+                    <ul class="list-disc list-inside text-gray-600 space-y-2">
+                        <li>Realistic physics engine</li>
+                        <li>Smooth controls and responsive handling</li>
+                        <li>Multiple racing tracks</li>
+                        <li>Time trial mode</li>
+                        <li>Performance statistics</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="grid md:grid-cols-3 gap-8">
+            <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">Realistic Graphics</h2>
+                <p class="text-gray-600">Experience stunning visuals and detailed environments that bring the racing world to life.</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">Smooth Controls</h2>
+                <p class="text-gray-600">Enjoy precise and responsive controls that give you complete command over your vehicle.</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">Cross-Platform</h2>
+                <p class="text-gray-600">Play seamlessly across all your devices with our responsive design.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-900 text-white mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="text-center">
+                <p class="text-gray-400">&copy; 2024 Car Racing Game. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
