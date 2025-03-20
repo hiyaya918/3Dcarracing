@@ -234,13 +234,35 @@
             // 当前活动的iframe
             let activeIframe = null;
             
-            // 设置活动iframe
+            // 设置活动iframe并给予焦点
             function setActiveIframe(iframe) {
                 activeIframe = iframe;
+                try {
+                    // 尝试聚焦iframe窗口
+                    activeIframe.contentWindow.focus();
+                } catch (e) {
+                    // 忽略跨域错误
+                }
+                // 添加视觉指示当前活动的iframe
+                gameIframes.forEach(frame => {
+                    frame.style.border = frame === activeIframe ? '2px solid #3b82f6' : 'none';
+                });
             }
             
             // 为每个iframe添加点击事件，设置为活动iframe
             gameIframes.forEach(iframe => {
+                // 在iframe加载完成后初始化
+                iframe.addEventListener('load', function() {
+                    // 尝试注入键盘事件监听器到iframe
+                    try {
+                        const iframeWindow = iframe.contentWindow;
+                        iframeWindow.focus();
+                        console.log('iframe loaded:', iframe.src);
+                    } catch (e) {
+                        console.log('无法访问iframe内容（跨域限制）:', e);
+                    }
+                });
+                
                 iframe.addEventListener('click', function() {
                     setActiveIframe(this);
                 });
@@ -252,26 +274,80 @@
             
             // 默认设置第一个iframe为活动状态
             if (gameIframes.length > 0) {
-                setActiveIframe(gameIframes[0]);
+                setTimeout(() => {
+                    setActiveIframe(gameIframes[0]);
+                }, 1000); // 延迟1秒，确保iframe已加载
             }
             
             // 模拟键盘事件
             function simulateKeyEvent(keyCode, type) {
                 if (!activeIframe) return;
                 
+                // 创建一个新的键盘事件
                 const event = new KeyboardEvent(type, {
                     bubbles: true,
                     cancelable: true,
-                    keyCode: keyCode
+                    keyCode: keyCode,
+                    which: keyCode,  // 添加which属性以增加兼容性
+                    code: getKeyCodeString(keyCode), // 添加code属性
+                    key: getKeyString(keyCode)       // 添加key属性
                 });
                 
-                // 向iframe发送事件
+                // 尝试多种方法将事件发送到iframe
                 try {
-                    activeIframe.contentWindow.document.dispatchEvent(event);
+                    // 方法1: 直接发送到iframe的contentWindow
+                    activeIframe.contentWindow.dispatchEvent(event);
                 } catch (e) {
-                    // 如果无法直接访问iframe内容（跨域限制），则发送到父文档
-                    document.dispatchEvent(event);
+                    try {
+                        // 方法2: 发送到iframe的contentDocument
+                        activeIframe.contentDocument.dispatchEvent(event);
+                    } catch (e) {
+                        try {
+                            // 方法3: 发送到iframe的contentWindow.document.body
+                            activeIframe.contentWindow.document.body.dispatchEvent(event);
+                        } catch (e) {
+                            // 方法4: 如果上述方法都失败，发送到父文档
+                            document.dispatchEvent(event);
+                        }
+                    }
                 }
+                
+                // 额外尝试: 使用iframe的focus()方法
+                try {
+                    activeIframe.contentWindow.focus();
+                } catch (e) {
+                    // 忽略错误
+                }
+            }
+            
+            // 获取键码对应的code字符串
+            function getKeyCodeString(keyCode) {
+                const keyCodeMap = {
+                    37: 'ArrowLeft',
+                    38: 'ArrowUp',
+                    39: 'ArrowRight',
+                    40: 'ArrowDown',
+                    65: 'KeyA',
+                    87: 'KeyW',
+                    68: 'KeyD',
+                    83: 'KeyS'
+                };
+                return keyCodeMap[keyCode] || '';
+            }
+            
+            // 获取键码对应的key字符串
+            function getKeyString(keyCode) {
+                const keyMap = {
+                    37: 'ArrowLeft',
+                    38: 'ArrowUp',
+                    39: 'ArrowRight',
+                    40: 'ArrowDown',
+                    65: 'a',
+                    87: 'w',
+                    68: 'd',
+                    83: 's'
+                };
+                return keyMap[keyCode] || '';
             }
             
             // 按键映射
@@ -286,17 +362,78 @@
             const KEY_D = 68;
             
             // 触摸事件处理
+            // 添加iframe桥接方法，尝试多种方式将按键事件传递到游戏中
+            function sendKeyEventToGame(keyCode, type) {
+                console.log(`尝试发送${type}事件，键码: ${keyCode}`);
+                
+                // 方法1: 使用simulateKeyEvent函数
+                simulateKeyEvent(keyCode, type);
+                
+                // 方法2: 创建一个新的键盘事件并直接分发到文档
+                const keyEvent = new KeyboardEvent(type, {
+                    bubbles: true,
+                    cancelable: true,
+                    keyCode: keyCode,
+                    which: keyCode,
+                    code: getKeyCodeString(keyCode),
+                    key: getKeyString(keyCode)
+                });
+                document.dispatchEvent(keyEvent);
+                
+                // 方法3: 如果有活动iframe，尝试将事件传递给它
+                if (activeIframe) {
+                    try {
+                        // 尝试通过postMessage发送键盘事件信息
+                        activeIframe.contentWindow.postMessage({
+                            type: type,
+                            keyCode: keyCode,
+                            key: getKeyString(keyCode),
+                            code: getKeyCodeString(keyCode)
+                        }, '*');
+                    } catch (err) {
+                        console.log('postMessage失败:', err);
+                    }
+                    
+                    // 尝试直接将事件发送到iframe的window对象
+                    try {
+                        const iframeEvent = new KeyboardEvent(type, {
+                            bubbles: true,
+                            cancelable: true,
+                            keyCode: keyCode,
+                            which: keyCode,
+                            code: getKeyCodeString(keyCode),
+                            key: getKeyString(keyCode)
+                        });
+                        activeIframe.contentWindow.dispatchEvent(iframeEvent);
+                    } catch (e) {
+                        // 忽略跨域错误
+                    }
+                }
+            }
+            
+            // 修改触摸事件处理函数，使用新的桥接方法
             function handleTouchStart(keyCode, alternativeKeyCode, button) {
                 // 添加视觉反馈
                 button.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
                 button.style.transform = 'scale(0.95)';
                 
-                // 发送主键码事件
-                simulateKeyEvent(keyCode, 'keydown');
+                console.log('按下按钮:', getKeyString(keyCode));
+                
+                // 确保iframe获得焦点
+                if (activeIframe) {
+                    try {
+                        activeIframe.focus();
+                    } catch (e) {
+                        // 忽略跨域错误
+                    }
+                }
+                
+                // 使用桥接方法发送主键码事件
+                sendKeyEventToGame(keyCode, 'keydown');
                 
                 // 如果有替代键码，也发送该事件（如WASD）
                 if (alternativeKeyCode) {
-                    simulateKeyEvent(alternativeKeyCode, 'keydown');
+                    sendKeyEventToGame(alternativeKeyCode, 'keydown');
                 }
             }
             
@@ -305,12 +442,14 @@
                 button.style.backgroundColor = '';
                 button.style.transform = '';
                 
-                // 发送主键码事件
-                simulateKeyEvent(keyCode, 'keyup');
+                console.log('释放按钮:', getKeyString(keyCode));
+                
+                // 使用桥接方法发送主键码事件
+                sendKeyEventToGame(keyCode, 'keyup');
                 
                 // 如果有替代键码，也发送该事件
                 if (alternativeKeyCode) {
-                    simulateKeyEvent(alternativeKeyCode, 'keyup');
+                    sendKeyEventToGame(alternativeKeyCode, 'keyup');
                 }
             }
             
@@ -354,34 +493,53 @@
                 handleTouchEnd(KEY_RIGHT, KEY_D, this);
             });
             
-            // 添加鼠标事件支持（用于测试）
-            if (!('ontouchstart' in window)) {
+            // 添加鼠标事件支持（用于测试和桌面设备）
+            if (!('ontouchstart' in window) || true) { // 始终添加鼠标事件支持
+                console.log('添加鼠标事件支持');
+                
                 controlUp.addEventListener('mousedown', function(e) {
+                    e.preventDefault(); // 防止默认行为
                     handleTouchStart(KEY_UP, KEY_W, this);
                 });
+                
                 controlUp.addEventListener('mouseup', function() {
                     handleTouchEnd(KEY_UP, KEY_W, this);
                 });
                 
                 controlDown.addEventListener('mousedown', function(e) {
+                    e.preventDefault(); // 防止默认行为
                     handleTouchStart(KEY_DOWN, KEY_S, this);
                 });
+                
                 controlDown.addEventListener('mouseup', function() {
                     handleTouchEnd(KEY_DOWN, KEY_S, this);
                 });
                 
                 controlLeft.addEventListener('mousedown', function(e) {
+                    e.preventDefault(); // 防止默认行为
                     handleTouchStart(KEY_LEFT, KEY_A, this);
                 });
+                
                 controlLeft.addEventListener('mouseup', function() {
                     handleTouchEnd(KEY_LEFT, KEY_A, this);
                 });
                 
                 controlRight.addEventListener('mousedown', function(e) {
+                    e.preventDefault(); // 防止默认行为
                     handleTouchStart(KEY_RIGHT, KEY_D, this);
                 });
+                
                 controlRight.addEventListener('mouseup', function() {
                     handleTouchEnd(KEY_RIGHT, KEY_D, this);
+                });
+                
+                // 添加鼠标离开按钮时的处理
+                [controlUp, controlDown, controlLeft, controlRight].forEach(button => {
+                    button.addEventListener('mouseleave', function() {
+                        // 恢复按钮样式
+                        this.style.backgroundColor = '';
+                        this.style.transform = '';
+                    });
                 });
             }
             
@@ -424,7 +582,28 @@
                     const controls = document.querySelector('.mobile-controls');
                     controls.style.display = 'block';
                 }, 300);
-            });}
+            });
+            
+            // 初始化函数，确保所有功能正确设置
+            function initGameControls() {
+                console.log('初始化游戏控制器');
+                
+                // 确保控制器在移动设备上可见
+                if (window.innerWidth <= 768) {
+                    document.querySelector('.mobile-controls').style.display = 'block';
+                }
+                
+                // 设置第一个iframe为活动状态
+                if (gameIframes.length > 0) {
+                    setTimeout(() => {
+                        setActiveIframe(gameIframes[0]);
+                        console.log('已设置活动iframe:', gameIframes[0].src);
+                    }, 1000);
+                }
+            }
+            
+            // 页面加载完成后初始化
+            initGameControls();
         });
     </script>
 </body>
