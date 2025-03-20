@@ -18,6 +18,88 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; }
+        
+        /* 移动端控制器样式 */
+        .mobile-controls {
+            display: none; /* 默认隐藏 */
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .control-button {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 10px;
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .control-button:active {
+            background-color: rgba(255, 255, 255, 0.8);
+            transform: scale(0.95);
+        }
+        
+        .control-button svg {
+            width: 24px;
+            height: 24px;
+            fill: #333;
+        }
+        
+        .control-left, .control-right {
+            margin-top: 10px;
+        }
+        
+        .control-container {
+            display: inline-block;
+            position: relative;
+        }
+        
+        .control-up-down {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .control-left-right {
+            display: flex;
+            justify-content: center;
+        }
+        
+        /* 移动设备上显示控制器 */
+        @media (max-width: 768px) {
+            .mobile-controls {
+                display: block;
+            }
+            
+            .game-container {
+                position: relative;
+            }
+        }
+        
+        /* 全屏模式下的控制器样式 */
+        :fullscreen .mobile-controls,
+        :-webkit-full-screen .mobile-controls,
+        :-moz-full-screen .mobile-controls,
+        :-ms-fullscreen .mobile-controls {
+            position: fixed;
+            bottom: 30px;
+            z-index: 9999;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            padding: 15px;
+        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -113,5 +195,237 @@
             </div>
         </div>
     </footer>
+    <!-- 移动端控制器 -->
+    <div class="mobile-controls">
+        <div class="control-container">
+            <div class="control-up-down">
+                <button class="control-button control-up" id="control-up">
+                    <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path></svg>
+                </button>
+                <button class="control-button control-down" id="control-down">
+                    <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
+                </button>
+            </div>
+        </div>
+        <div class="control-container">
+            <div class="control-left-right">
+                <button class="control-button control-left" id="control-left">
+                    <svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"></path></svg>
+                </button>
+                <button class="control-button control-right" id="control-right">
+                    <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"></path></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 移动端控制器代码
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取所有游戏iframe
+            const gameIframes = document.querySelectorAll('iframe');
+            
+            // 控制按钮
+            const controlUp = document.getElementById('control-up');
+            const controlDown = document.getElementById('control-down');
+            const controlLeft = document.getElementById('control-left');
+            const controlRight = document.getElementById('control-right');
+            
+            // 当前活动的iframe
+            let activeIframe = null;
+            
+            // 设置活动iframe
+            function setActiveIframe(iframe) {
+                activeIframe = iframe;
+            }
+            
+            // 为每个iframe添加点击事件，设置为活动iframe
+            gameIframes.forEach(iframe => {
+                iframe.addEventListener('click', function() {
+                    setActiveIframe(this);
+                });
+                
+                iframe.addEventListener('touchstart', function() {
+                    setActiveIframe(this);
+                });
+            });
+            
+            // 默认设置第一个iframe为活动状态
+            if (gameIframes.length > 0) {
+                setActiveIframe(gameIframes[0]);
+            }
+            
+            // 模拟键盘事件
+            function simulateKeyEvent(keyCode, type) {
+                if (!activeIframe) return;
+                
+                const event = new KeyboardEvent(type, {
+                    bubbles: true,
+                    cancelable: true,
+                    keyCode: keyCode
+                });
+                
+                // 向iframe发送事件
+                try {
+                    activeIframe.contentWindow.document.dispatchEvent(event);
+                } catch (e) {
+                    // 如果无法直接访问iframe内容（跨域限制），则发送到父文档
+                    document.dispatchEvent(event);
+                }
+            }
+            
+            // 按键映射
+            const KEY_UP = 38;
+            const KEY_DOWN = 40;
+            const KEY_LEFT = 37;
+            const KEY_RIGHT = 39;
+            // 添加WASD键支持
+            const KEY_W = 87;
+            const KEY_A = 65;
+            const KEY_S = 83;
+            const KEY_D = 68;
+            
+            // 触摸事件处理
+            function handleTouchStart(keyCode, alternativeKeyCode, button) {
+                // 添加视觉反馈
+                button.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
+                button.style.transform = 'scale(0.95)';
+                
+                // 发送主键码事件
+                simulateKeyEvent(keyCode, 'keydown');
+                
+                // 如果有替代键码，也发送该事件（如WASD）
+                if (alternativeKeyCode) {
+                    simulateKeyEvent(alternativeKeyCode, 'keydown');
+                }
+            }
+            
+            function handleTouchEnd(keyCode, alternativeKeyCode, button) {
+                // 恢复按钮样式
+                button.style.backgroundColor = '';
+                button.style.transform = '';
+                
+                // 发送主键码事件
+                simulateKeyEvent(keyCode, 'keyup');
+                
+                // 如果有替代键码，也发送该事件
+                if (alternativeKeyCode) {
+                    simulateKeyEvent(alternativeKeyCode, 'keyup');
+                }
+            }
+            
+            // 上按钮事件 (上箭头和W)
+            controlUp.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                handleTouchStart(KEY_UP, KEY_W, this);
+            });
+            
+            controlUp.addEventListener('touchend', function() {
+                handleTouchEnd(KEY_UP, KEY_W, this);
+            });
+            
+            // 下按钮事件 (下箭头和S)
+            controlDown.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                handleTouchStart(KEY_DOWN, KEY_S, this);
+            });
+            
+            controlDown.addEventListener('touchend', function() {
+                handleTouchEnd(KEY_DOWN, KEY_S, this);
+            });
+            
+            // 左按钮事件 (左箭头和A)
+            controlLeft.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                handleTouchStart(KEY_LEFT, KEY_A, this);
+            });
+            
+            controlLeft.addEventListener('touchend', function() {
+                handleTouchEnd(KEY_LEFT, KEY_A, this);
+            });
+            
+            // 右按钮事件 (右箭头和D)
+            controlRight.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                handleTouchStart(KEY_RIGHT, KEY_D, this);
+            });
+            
+            controlRight.addEventListener('touchend', function() {
+                handleTouchEnd(KEY_RIGHT, KEY_D, this);
+            });
+            
+            // 添加鼠标事件支持（用于测试）
+            if (!('ontouchstart' in window)) {
+                controlUp.addEventListener('mousedown', function(e) {
+                    handleTouchStart(KEY_UP, KEY_W, this);
+                });
+                controlUp.addEventListener('mouseup', function() {
+                    handleTouchEnd(KEY_UP, KEY_W, this);
+                });
+                
+                controlDown.addEventListener('mousedown', function(e) {
+                    handleTouchStart(KEY_DOWN, KEY_S, this);
+                });
+                controlDown.addEventListener('mouseup', function() {
+                    handleTouchEnd(KEY_DOWN, KEY_S, this);
+                });
+                
+                controlLeft.addEventListener('mousedown', function(e) {
+                    handleTouchStart(KEY_LEFT, KEY_A, this);
+                });
+                controlLeft.addEventListener('mouseup', function() {
+                    handleTouchEnd(KEY_LEFT, KEY_A, this);
+                });
+                
+                controlRight.addEventListener('mousedown', function(e) {
+                    handleTouchStart(KEY_RIGHT, KEY_D, this);
+                });
+                controlRight.addEventListener('mouseup', function() {
+                    handleTouchEnd(KEY_RIGHT, KEY_D, this);
+                });
+            }
+            
+            // 为游戏容器添加类
+            gameIframes.forEach(iframe => {
+                const container = iframe.parentElement;
+                container.classList.add('game-container');
+                
+                // 监听全屏变化事件
+                document.addEventListener('fullscreenchange', function() {
+                    const controls = document.querySelector('.mobile-controls');
+                    if (document.fullscreenElement === iframe) {
+                        // 如果iframe进入全屏，确保控制器仍然可见
+                        controls.style.display = 'block';
+                        document.fullscreenElement.insertAdjacentElement('afterend', controls);
+                    } else if (!document.fullscreenElement) {
+                        // 如果退出全屏，将控制器放回原位
+                        document.body.appendChild(controls);
+                    }
+                });
+            });
+            
+            // 添加全屏按钮点击事件处理
+            const fullscreenButtons = document.querySelectorAll('button[onclick*="requestFullscreen"]');
+            fullscreenButtons.forEach(button => {
+                const originalOnClick = button.getAttribute('onclick');
+                button.removeAttribute('onclick');
+                button.addEventListener('click', function() {
+                    const iframe = this.previousElementSibling;
+                    iframe.requestFullscreen().catch(err => {
+                        console.error(`全屏错误: ${err.message}`);
+                    });
+                });
+            });
+            
+            // 处理移动设备方向变化
+            window.addEventListener('orientationchange', function() {
+                // 短暂延迟以确保方向变化完成
+                setTimeout(function() {
+                    const controls = document.querySelector('.mobile-controls');
+                    controls.style.display = 'block';
+                }, 300);
+            });}
+        });
+    </script>
 </body>
 </html>
