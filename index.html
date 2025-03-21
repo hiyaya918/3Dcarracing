@@ -237,16 +237,42 @@
             // 设置活动iframe并给予焦点
             function setActiveIframe(iframe) {
                 activeIframe = iframe;
-                try {
-                    // 尝试聚焦iframe窗口
-                    activeIframe.contentWindow.focus();
-                } catch (e) {
-                    // 忽略跨域错误
-                }
+                
                 // 添加视觉指示当前活动的iframe
                 gameIframes.forEach(frame => {
                     frame.style.border = frame === activeIframe ? '2px solid #3b82f6' : 'none';
                 });
+                
+                // 尝试多种方式给iframe焦点
+                try {
+                    // 方法1: 直接聚焦iframe元素
+                    activeIframe.focus();
+                    
+                    // 方法2: 聚焦iframe的contentWindow
+                    activeIframe.contentWindow.focus();
+                    
+                    // 方法3: 尝试将iframe的tabIndex设置为1并聚焦
+                    activeIframe.tabIndex = 1;
+                    activeIframe.focus();
+                    
+                    console.log('已设置活动iframe并尝试聚焦:', activeIframe.src);
+                    
+                    // 方法4: 尝试点击iframe内部
+                    try {
+                        const clickEvent = new MouseEvent('click', {
+                            bubbles: true,
+                            cancelable: true,
+                            view: window
+                        });
+                        activeIframe.contentWindow.dispatchEvent(clickEvent);
+                        activeIframe.contentDocument.dispatchEvent(clickEvent);
+                        activeIframe.contentDocument.body.dispatchEvent(clickEvent);
+                    } catch (e) {
+                        // 忽略跨域错误
+                    }
+                } catch (e) {
+                    console.log('无法聚焦iframe（可能是跨域限制）:', e);
+                }
             }
             
             // 为每个iframe添加点击事件，设置为活动iframe
@@ -258,6 +284,74 @@
                         const iframeWindow = iframe.contentWindow;
                         iframeWindow.focus();
                         console.log('iframe loaded:', iframe.src);
+                        
+                        // 尝试注入控制脚本
+                        try {
+                            const script = document.createElement('script');
+                            script.textContent = `
+                                // 创建一个隐藏的输入元素来接收键盘事件
+                                const hiddenInput = document.createElement('input');
+                                hiddenInput.style.position = 'absolute';
+                                hiddenInput.style.opacity = '0';
+                                hiddenInput.style.pointerEvents = 'none';
+                                hiddenInput.style.zIndex = '-1';
+                                document.body.appendChild(hiddenInput);
+                                
+                                // 确保输入元素始终获得焦点
+                                setInterval(() => {
+                                    hiddenInput.focus();
+                                }, 500);
+                                
+                                // 添加键盘事件监听器
+                                document.addEventListener('keydown', function(e) {
+                                    console.log('游戏内部收到keydown事件:', e.keyCode, e.key);
+                                });
+                                document.addEventListener('keyup', function(e) {
+                                    console.log('游戏内部收到keyup事件:', e.keyCode, e.key);
+                                });
+                                
+                                // 添加消息事件监听器
+                                window.addEventListener('message', function(event) {
+                                    try {
+                                        const data = event.data;
+                                        if (data && data.type && data.keyCode) {
+                                            console.log('收到控制消息:', data);
+                                            
+                                            // 聚焦隐藏输入元素
+                                            hiddenInput.focus();
+                                            
+                                            // 创建并分发键盘事件
+                                            const keyEvent = new KeyboardEvent(data.type, {
+                                                bubbles: true,
+                                                cancelable: true,
+                                                keyCode: data.keyCode,
+                                                which: data.keyCode,
+                                                code: data.code || '',
+                                                key: data.key || ''
+                                            });
+                                            
+                                            // 尝试多种方式分发事件
+                                            hiddenInput.dispatchEvent(keyEvent);
+                                            document.dispatchEvent(keyEvent);
+                                            document.body.dispatchEvent(keyEvent);
+                                            window.dispatchEvent(keyEvent);
+                                            
+                                            if (document.activeElement) {
+                                                document.activeElement.dispatchEvent(keyEvent);
+                                            }
+                                        }
+                                    } catch(e) {
+                                        console.error('处理消息事件失败:', e);
+                                    }
+                                });
+                                console.log('已注册游戏内部事件监听器');
+                            `;
+                            
+                            iframe.contentDocument.head.appendChild(script);
+                            console.log('已向iframe注入控制脚本:', iframe.src);
+                        } catch(e) {
+                            console.log('无法向iframe注入脚本（跨域限制）:', e);
+                        }
                     } catch (e) {
                         console.log('无法访问iframe内容（跨域限制）:', e);
                     }
@@ -364,7 +458,7 @@
             // 触摸事件处理
             // 添加iframe桥接方法，尝试多种方式将按键事件传递到游戏中
             function sendKeyEventToGame(keyCode, type) {
-                console.log(`尝试发送${type}事件，键码: ${keyCode}`);
+                console.log(`尝试发送${type}事件，键码: ${keyCode}, 按键: ${getKeyString(keyCode)}`);
                 
                 // 方法1: 使用simulateKeyEvent函数
                 simulateKeyEvent(keyCode, type);
@@ -376,7 +470,9 @@
                     keyCode: keyCode,
                     which: keyCode,
                     code: getKeyCodeString(keyCode),
-                    key: getKeyString(keyCode)
+                    key: getKeyString(keyCode),
+                    view: window,
+                    composed: true // 允许事件穿越Shadow DOM边界
                 });
                 document.dispatchEvent(keyEvent);
                 
@@ -402,12 +498,115 @@
                             keyCode: keyCode,
                             which: keyCode,
                             code: getKeyCodeString(keyCode),
-                            key: getKeyString(keyCode)
+                            key: getKeyString(keyCode),
+                            view: activeIframe.contentWindow,
+                            composed: true
                         });
                         activeIframe.contentWindow.dispatchEvent(iframeEvent);
+                        
+                        // 尝试将事件发送到iframe的document和body
+                        try {
+                            activeIframe.contentDocument.dispatchEvent(iframeEvent);
+                            activeIframe.contentDocument.body.dispatchEvent(iframeEvent);
+                            
+                            // 尝试将事件发送到iframe的document的activeElement
+                            if (activeIframe.contentDocument.activeElement) {
+                                activeIframe.contentDocument.activeElement.dispatchEvent(iframeEvent);
+                            }
+                        } catch (e) {
+                            // 忽略跨域错误
+                        }
                     } catch (e) {
                         // 忽略跨域错误
                     }
+                    
+                    // 方法4: 尝试使用iframe的contentWindow.document.dispatchEvent
+                    try {
+                        const docEvent = new KeyboardEvent(type, {
+                            bubbles: true,
+                            cancelable: true,
+                            keyCode: keyCode,
+                            which: keyCode,
+                            code: getKeyCodeString(keyCode),
+                            key: getKeyString(keyCode)
+                        });
+                        activeIframe.contentWindow.document.dispatchEvent(docEvent);
+                    } catch (e) {
+                        // 忽略跨域错误
+                    }
+                    
+                    // 方法5: 尝试使用DOM元素注入的方式模拟按键
+                    try {
+                        // 创建一个隐藏的输入元素
+                        const input = document.createElement('input');
+                        input.style.position = 'absolute';
+                        input.style.opacity = '0';
+                        input.style.pointerEvents = 'none';
+                        document.body.appendChild(input);
+                        
+                        // 聚焦输入元素并触发按键事件
+                        input.focus();
+                        const inputEvent = new KeyboardEvent(type, {
+                            bubbles: true,
+                            cancelable: true,
+                            keyCode: keyCode,
+                            which: keyCode,
+                            code: getKeyCodeString(keyCode),
+                            key: getKeyString(keyCode)
+                        });
+                        input.dispatchEvent(inputEvent);
+                        
+                        // 移除输入元素
+                        setTimeout(() => {
+                            document.body.removeChild(input);
+                        }, 100);
+                    } catch (e) {
+                        console.log('输入元素注入失败:', e);
+                    }
+                }
+                
+                // 方法6: 尝试使用iframe内容注入的方式
+                try {
+                    if (activeIframe) {
+                        // 创建一个脚本元素
+                        const script = document.createElement('script');
+                        script.textContent = `
+                            try {
+                                const event = new KeyboardEvent('${type}', {
+                                    bubbles: true,
+                                    cancelable: true,
+                                    keyCode: ${keyCode},
+                                    which: ${keyCode},
+                                    code: '${getKeyCodeString(keyCode)}',
+                                    key: '${getKeyString(keyCode)}'
+                                });
+                                document.dispatchEvent(event);
+                                if (document.activeElement) {
+                                    document.activeElement.dispatchEvent(event);
+                                }
+                                document.body.dispatchEvent(event);
+                                window.dispatchEvent(event);
+                                console.log('内部事件已触发: ${type} ${keyCode}');
+                            } catch(e) {
+                                console.error('内部事件触发失败:', e);
+                            }
+                        `;
+                        
+                        try {
+                            activeIframe.contentDocument.head.appendChild(script);
+                            // 执行后移除脚本
+                            setTimeout(() => {
+                                try {
+                                    activeIframe.contentDocument.head.removeChild(script);
+                                } catch(e) {}
+                            }, 100);
+                        } catch(e) {
+                            // 跨域限制，无法直接注入
+                            console.log('无法注入脚本到iframe:', e);
+                        }
+                    }
+                } catch(e) {
+                    console.log('脚本注入尝试失败:', e);
                 }
             }
             
@@ -598,8 +797,69 @@
                     setTimeout(() => {
                         setActiveIframe(gameIframes[0]);
                         console.log('已设置活动iframe:', gameIframes[0].src);
+                        
+                        // 尝试向所有iframe注入消息接收器
+                        gameIframes.forEach(iframe => {
+                            try {
+                                // 创建一个脚本元素来注入消息接收器
+                                const script = document.createElement('script');
+                                script.textContent = `
+                                    window.addEventListener('message', function(event) {
+                                        try {
+                                            const data = event.data;
+                                            if (data && data.type && data.keyCode) {
+                                                console.log('收到控制消息:', data);
+                                                const keyEvent = new KeyboardEvent(data.type, {
+                                                    bubbles: true,
+                                                    cancelable: true,
+                                                    keyCode: data.keyCode,
+                                                    which: data.keyCode,
+                                                    code: data.code || '',
+                                                    key: data.key || ''
+                                                });
+                                                document.dispatchEvent(keyEvent);
+                                                if (document.activeElement) {
+                                                    document.activeElement.dispatchEvent(keyEvent);
+                                                }
+                                                document.body.dispatchEvent(keyEvent);
+                                                window.dispatchEvent(keyEvent);
+                                            }
+                                        } catch(e) {
+                                            console.error('处理消息事件失败:', e);
+                                        }
+                                    });
+                                    console.log('已注册消息事件监听器');
+                                    
+                                    // 添加键盘事件监听器，用于调试
+                                    document.addEventListener('keydown', function(e) {
+                                        console.log('游戏内部收到keydown事件:', e.keyCode, e.key);
+                                    });
+                                    document.addEventListener('keyup', function(e) {
+                                        console.log('游戏内部收到keyup事件:', e.keyCode, e.key);
+                                    });
+                                `;
+                                
+                                iframe.contentDocument.head.appendChild(script);
+                                console.log('已向iframe注入消息接收器:', iframe.src);
+                            } catch(e) {
+                                console.log('无法向iframe注入脚本（跨域限制）:', e);
+                            }
+                        });
+                        
+                        // 添加全局消息监听器，用于调试
+                        window.addEventListener('message', function(event) {
+                            console.log('主页面收到消息:', event.data);
+                        });
                     }, 1000);
                 }
+                
+                // 添加键盘事件监听器，用于调试
+                document.addEventListener('keydown', function(e) {
+                    console.log('主页面收到keydown事件:', e.keyCode, e.key);
+                });
+                document.addEventListener('keyup', function(e) {
+                    console.log('主页面收到keyup事件:', e.keyCode, e.key);
+                });
             }
             
             // 页面加载完成后初始化
