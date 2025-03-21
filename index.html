@@ -6,7 +6,7 @@
     <title>Car Racing Games - Experience Multiple Racing Adventures</title>
     <meta name="description" content="Immerse yourself in multiple exciting car racing games. Experience high-speed thrills and compete against time in these addictive racing simulators.">
     <link rel="canonical" href="https://your-domain.com/car-racing" />
-    <!-- Google Analytics 代码 -->
+    <!-- Google Analytics Code -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-90N762QLBX"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -19,9 +19,9 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; }
         
-        /* 移动端控制器样式 */
+        /* Mobile Controls Style */
         .mobile-controls {
-            display: none; /* 默认隐藏 */
+            display: none; /* Hidden by default */
             position: fixed;
             bottom: 20px;
             left: 0;
@@ -36,60 +36,43 @@
             height: 60px;
             background-color: rgba(255, 255, 255, 0.6);
             border-radius: 50%;
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
             margin: 0 10px;
             border: none;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            touch-action: manipulation;
-            -webkit-tap-highlight-color: transparent;
+            cursor: pointer;
+            transition: background-color 0.3s;
         }
         
-        .control-button:active {
+        .control-button:hover {
             background-color: rgba(255, 255, 255, 0.8);
-            transform: scale(0.95);
         }
         
-        .control-button svg {
-            width: 24px;
-            height: 24px;
-            fill: #333;
-        }
-        
-        .control-left, .control-right {
-            margin-top: 10px;
-        }
-        
-        .control-container {
-            display: inline-block;
-            position: relative;
-        }
-        
-        .control-up-down {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .control-left-right {
-            display: flex;
-            justify-content: center;
-        }
-        
-        /* 移动设备上显示控制器 */
-        @media (max-width: 768px) {
+        /* Show mobile controls on touch devices */
+        @media (hover: none) {
             .mobile-controls {
                 display: block;
             }
-            
-            .game-container {
-                position: relative;
-            }
         }
         
-        /* 全屏模式下的控制器样式 */
-        :fullscreen .mobile-controls,
+        /* Fullscreen styles */
+        .game-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            background-color: #000;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .game-iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* Fullscreen mode styles */
         :-webkit-full-screen .mobile-controls,
         :-moz-full-screen .mobile-controls,
         :-ms-fullscreen .mobile-controls {
@@ -123,28 +106,20 @@
         </section>
 
         <section id="games" class="grid lg:grid-cols-2 gap-8 mb-16">
-            <div class="bg-gray-100 rounded-lg overflow-hidden shadow-lg relative group">
-                <h3 class="text-xl font-semibold text-gray-900 p-4 bg-white">HexGL Racing</h3>
-                <iframe src="https://hexgl.bkcore.com/play/" 
-                        class="w-full h-[60vh]" 
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen>
-                </iframe>
-                <button onclick="this.previousElementSibling.requestFullscreen()" 
+            <div class="relative group">
+                <div class="game-container">
+                    <iframe src="game1.html" class="game-iframe" allowfullscreen></iframe>
+                </div>
+                <button onclick="toggleFullscreen(this.parentElement.querySelector('.game-iframe'))" 
                         class="absolute bottom-4 right-4 bg-white/80 hover:bg-white px-4 py-2 rounded-lg shadow-sm text-gray-700 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                     Fullscreen
                 </button>
             </div>
-            <div class="bg-gray-100 rounded-lg overflow-hidden shadow-lg relative group">
-                <h3 class="text-xl font-semibold text-gray-900 p-4 bg-white">PMND Racing</h3>
-                <iframe src="https://racing.pmnd.rs/" 
-                        class="w-full h-[60vh]" 
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen>
-                </iframe>
-                <button onclick="this.previousElementSibling.requestFullscreen()" 
+            <div class="relative group">
+                <div class="game-container">
+                    <iframe src="game2.html" class="game-iframe" allowfullscreen></iframe>
+                </div>
+                <button onclick="toggleFullscreen(this.parentElement.querySelector('.game-iframe'))" 
                         class="absolute bottom-4 right-4 bg-white/80 hover:bg-white px-4 py-2 rounded-lg shadow-sm text-gray-700 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                     Fullscreen
                 </button>
@@ -195,800 +170,107 @@
             </div>
         </div>
     </footer>
-    <!-- 移动端控制器 -->
+
     <div class="mobile-controls">
-        <div class="control-container">
-            <div class="control-up-down">
-                <button class="control-button control-up" id="control-up">
-                    <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path></svg>
-                </button>
-                <button class="control-button control-down" id="control-down">
-                    <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
-                </button>
-            </div>
-        </div>
-        <div class="control-container">
-            <div class="control-left-right">
-                <button class="control-button control-left" id="control-left">
-                    <svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"></path></svg>
-                </button>
-                <button class="control-button control-right" id="control-right">
-                    <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"></path></svg>
-                </button>
-            </div>
+        <button class="control-button" id="btnUp">↑</button>
+        <div class="flex justify-center space-x-4">
+            <button class="control-button" id="btnLeft">←</button>
+            <button class="control-button" id="btnDown">↓</button>
+            <button class="control-button" id="btnRight">→</button>
         </div>
     </div>
 
     <script>
-        // 移动端控制器代码
-        document.addEventListener('DOMContentLoaded', function() {
-            // 获取所有游戏iframe
-            const gameIframes = document.querySelectorAll('iframe');
-            
-            // 控制按钮
-            const controlUp = document.getElementById('control-up');
-            const controlDown = document.getElementById('control-down');
-            const controlLeft = document.getElementById('control-left');
-            const controlRight = document.getElementById('control-right');
-            
-            // 当前活动的iframe
-            let activeIframe = null;
-            
-            // 为每个控制按钮添加触摸事件监听器
-            const addControlButtonEvents = (button, keyCode) => {
-                let isPressed = false;
-                
-                button.addEventListener('touchstart', function(e) {
-                    e.preventDefault();
-                    isPressed = true;
-                    this.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
-                    this.style.transform = 'scale(0.95)';
-                    sendKeyEventToGame(keyCode, 'keydown');
-                }, { passive: false });
-                
-                button.addEventListener('touchend', function(e) {
-                    e.preventDefault();
-                    if (isPressed) {
-                        isPressed = false;
-                        this.style.backgroundColor = '';
-                        this.style.transform = '';
-                        sendKeyEventToGame(keyCode, 'keyup');
-                    }
-                }, { passive: false });
-                
-                button.addEventListener('touchcancel', function(e) {
-                    e.preventDefault();
-                    if (isPressed) {
-                        isPressed = false;
-                        this.style.backgroundColor = '';
-                        this.style.transform = '';
-                        sendKeyEventToGame(keyCode, 'keyup');
-                    }
-                }, { passive: false });
-            };
-            
-            // 初始化控制按钮事件
-            addControlButtonEvents(controlUp, 38);    // 上箭头
-            addControlButtonEvents(controlDown, 40);  // 下箭头
-            addControlButtonEvents(controlLeft, 37);  // 左箭头
-            addControlButtonEvents(controlRight, 39); // 右箭头
-            
-            // 设置活动iframe并给予焦点
-            function setActiveIframe(iframe) {
+        // Fullscreen toggle function
+        function toggleFullscreen(element) {
+            if (!document.fullscreenElement) {
+                if (element.requestFullscreen) {
+                    element.requestFullscreen();
+                } else if (element.webkitRequestFullscreen) {
+                    element.webkitRequestFullscreen();
+                } else if (element.msRequestFullscreen) {
+                    element.msRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+            }
+        }
+
+        // Mobile controls
+        const controls = {
+            up: document.getElementById('btnUp'),
+            down: document.getElementById('btnDown'),
+            left: document.getElementById('btnLeft'),
+            right: document.getElementById('btnRight')
+        };
+
+        let activeIframe = null;
+
+        // Handle iframe focus
+        document.querySelectorAll('.game-iframe').forEach(iframe => {
+            iframe.addEventListener('click', () => {
                 activeIframe = iframe;
-                
-                // 添加视觉指示当前活动的iframe
-                gameIframes.forEach(frame => {
-                    frame.style.border = frame === activeIframe ? '2px solid #3b82f6' : 'none';
-                });
-                
-                // 添加触摸事件监听
-                iframe.addEventListener('touchstart', function(e) {
-                    if (e.touches.length === 2) {
-                        // 双指触摸时模拟上键（加速）
-                        sendKeyEventToGame(38, 'keydown');
-                        e.preventDefault();
-                    }
-                }, { passive: false });
-                
-                iframe.addEventListener('touchend', function(e) {
-                    // 当所有手指离开时释放按键
-                    if (e.touches.length === 0) {
-                        sendKeyEventToGame(38, 'keyup');
-                    }
-                });
-                
-                // 尝试多种方式给iframe焦点
-                try {
-                    // 方法1: 直接聚焦iframe元素
-                    activeIframe.focus();
-                    
-                    // 方法2: 聚焦iframe的contentWindow
-                    activeIframe.contentWindow.focus();
-                    
-                    // 方法3: 尝试将iframe的tabIndex设置为1并聚焦
-                    activeIframe.tabIndex = 1;
-                    activeIframe.focus();
-                    
-                    console.log('已设置活动iframe并尝试聚焦:', activeIframe.src);
-                    
-                    // 方法4: 尝试点击iframe内部
-                    try {
-                        const clickEvent = new MouseEvent('click', {
-                            bubbles: true,
-                            cancelable: true,
-                            view: window
-                        });
-                        activeIframe.contentWindow.dispatchEvent(clickEvent);
-                        activeIframe.contentDocument.dispatchEvent(clickEvent);
-                        activeIframe.contentDocument.body.dispatchEvent(clickEvent);
-                    } catch (e) {
-                        // 忽略跨域错误
-                    }
-                } catch (e) {
-                    console.log('无法聚焦iframe（可能是跨域限制）:', e);
-                }
-            }
-            
-            // 为每个iframe添加点击事件，设置为活动iframe
-            gameIframes.forEach(iframe => {
-                // 在iframe加载完成后初始化
-                iframe.addEventListener('load', function() {
-                    // 尝试注入键盘事件监听器到iframe
-                    try {
-                        const iframeWindow = iframe.contentWindow;
-                        iframeWindow.focus();
-                        console.log('iframe loaded:', iframe.src);
-                        
-                        // 尝试注入控制脚本
-                        try {
-                            const script = document.createElement('script');
-                            script.textContent = `
-                                // 创建一个隐藏的输入元素来接收键盘事件
-                                const hiddenInput = document.createElement('input');
-                                hiddenInput.style.position = 'absolute';
-                                hiddenInput.style.opacity = '0';
-                                hiddenInput.style.pointerEvents = 'none';
-                                hiddenInput.style.zIndex = '-1';
-                                document.body.appendChild(hiddenInput);
-                                
-                                // 确保输入元素始终获得焦点
-                                setInterval(() => {
-                                    hiddenInput.focus();
-                                }, 500);
-                                
-                                // 添加键盘事件监听器
-                                document.addEventListener('keydown', function(e) {
-                                    console.log('游戏内部收到keydown事件:', e.keyCode, e.key);
-                                });
-                                document.addEventListener('keyup', function(e) {
-                                    console.log('游戏内部收到keyup事件:', e.keyCode, e.key);
-                                });
-                                
-                                // 添加消息事件监听器
-                                window.addEventListener('message', function(event) {
-                                    try {
-                                        const data = event.data;
-                                        if (data && data.type && data.keyCode) {
-                                            console.log('收到控制消息:', data);
-                                            
-                                            // 聚焦隐藏输入元素
-                                            hiddenInput.focus();
-                                            
-                                            // 创建并分发键盘事件
-                                            const keyEvent = new KeyboardEvent(data.type, {
-                                                bubbles: true,
-                                                cancelable: true,
-                                                keyCode: data.keyCode,
-                                                which: data.keyCode,
-                                                code: data.code || '',
-                                                key: data.key || ''
-                                            });
-                                            
-                                            // 尝试多种方式分发事件
-                                            hiddenInput.dispatchEvent(keyEvent);
-                                            document.dispatchEvent(keyEvent);
-                                            document.body.dispatchEvent(keyEvent);
-                                            window.dispatchEvent(keyEvent);
-                                            
-                                            if (document.activeElement) {
-                                                document.activeElement.dispatchEvent(keyEvent);
-                                            }
-                                        }
-                                    } catch(e) {
-                                        console.error('处理消息事件失败:', e);
-                                    }
-                                });
-                                console.log('已注册游戏内部事件监听器');
-                            `;
-                            
-                            iframe.contentDocument.head.appendChild(script);
-                            console.log('已向iframe注入控制脚本:', iframe.src);
-                        } catch(e) {
-                            console.log('无法向iframe注入脚本（跨域限制）:', e);
-                        }
-                    } catch (e) {
-                        console.log('无法访问iframe内容（跨域限制）:', e);
-                    }
-                });
-                
-                iframe.addEventListener('click', function() {
-                    setActiveIframe(this);
-                });
-                
-                iframe.addEventListener('touchstart', function() {
-                    setActiveIframe(this);
-                });
             });
-            
-            // 默认设置第一个iframe为活动状态
-            if (gameIframes.length > 0) {
-                setTimeout(() => {
-                    setActiveIframe(gameIframes[0]);
-                }, 1000); // 延迟1秒，确保iframe已加载
-            }
-            
-            // 模拟键盘事件
-            function simulateKeyEvent(keyCode, type) {
-                if (!activeIframe) return;
-                
-                // 创建一个新的键盘事件
-                const event = new KeyboardEvent(type, {
-                    bubbles: true,
-                    cancelable: true,
-                    keyCode: keyCode,
-                    which: keyCode,  // 添加which属性以增加兼容性
-                    code: getKeyCodeString(keyCode), // 添加code属性
-                    key: getKeyString(keyCode)       // 添加key属性
-                });
-                
-                // 尝试多种方法将事件发送到iframe
-                try {
-                    // 方法1: 直接发送到iframe的contentWindow
-                    activeIframe.contentWindow.dispatchEvent(event);
-                } catch (e) {
-                    try {
-                        // 方法2: 发送到iframe的contentDocument
-                        activeIframe.contentDocument.dispatchEvent(event);
-                    } catch (e) {
-                        try {
-                            // 方法3: 发送到iframe的contentWindow.document.body
-                            activeIframe.contentWindow.document.body.dispatchEvent(event);
-                        } catch (e) {
-                            // 方法4: 如果上述方法都失败，发送到父文档
-                            document.dispatchEvent(event);
-                        }
-                    }
-                }
-                
-                // 额外尝试: 使用iframe的focus()方法
-                try {
-                    activeIframe.contentWindow.focus();
-                } catch (e) {
-                    // 忽略错误
-                }
-            }
-            
-            // 获取键码对应的code字符串
-            function getKeyCodeString(keyCode) {
-                const keyCodeMap = {
-                    37: 'ArrowLeft',
-                    38: 'ArrowUp',
-                    39: 'ArrowRight',
-                    40: 'ArrowDown',
-                    65: 'KeyA',
-                    87: 'KeyW',
-                    68: 'KeyD',
-                    83: 'KeyS'
-                };
-                return keyCodeMap[keyCode] || '';
-            }
-            
-            // 获取键码对应的key字符串
-            function getKeyString(keyCode) {
-                const keyMap = {
-                    37: 'ArrowLeft',
-                    38: 'ArrowUp',
-                    39: 'ArrowRight',
-                    40: 'ArrowDown',
-                    65: 'a',
-                    87: 'w',
-                    68: 'd',
-                    83: 's'
-                };
-                return keyMap[keyCode] || '';
-            }
-            
-            // 按键映射
-            const KEY_UP = 38;
-            const KEY_DOWN = 40;
-            const KEY_LEFT = 37;
-            const KEY_RIGHT = 39;
-            // 添加WASD键支持
-            const KEY_W = 87;
-            const KEY_A = 65;
-            const KEY_S = 83;
-            const KEY_D = 68;
-            
-            // 触摸事件处理
-            // 添加iframe桥接方法，尝试多种方式将按键事件传递到游戏中
-            function sendKeyEventToGame(keyCode, type) {
-                console.log(`尝试发送${type}事件，键码: ${keyCode}, 按键: ${getKeyString(keyCode)}`);
-                
-                // 方法1: 使用simulateKeyEvent函数
-                simulateKeyEvent(keyCode, type);
-                
-                // 方法2: 创建一个新的键盘事件并直接分发到文档
-                const keyEvent = new KeyboardEvent(type, {
-                    bubbles: true,
-                    cancelable: true,
-                    keyCode: keyCode,
-                    which: keyCode,
-                    code: getKeyCodeString(keyCode),
-                    key: getKeyString(keyCode),
-                    view: window,
-                    composed: true // 允许事件穿越Shadow DOM边界
-                });
-                document.dispatchEvent(keyEvent);
-                
-                // 方法3: 如果有活动iframe，尝试将事件传递给它
-                if (activeIframe) {
-                    try {
-                        // 尝试通过postMessage发送键盘事件信息
-                        activeIframe.contentWindow.postMessage({
-                            type: type,
-                            keyCode: keyCode,
-                            key: getKeyString(keyCode),
-                            code: getKeyCodeString(keyCode)
-                        }, '*');
-                    } catch (err) {
-                        console.log('postMessage失败:', err);
-                    }
-                    
-                    // 尝试直接将事件发送到iframe的window对象
-                    try {
-                        const iframeEvent = new KeyboardEvent(type, {
-                            bubbles: true,
-                            cancelable: true,
-                            keyCode: keyCode,
-                            which: keyCode,
-                            code: getKeyCodeString(keyCode),
-                            key: getKeyString(keyCode),
-                            view: activeIframe.contentWindow,
-                            composed: true
-                        });
-                        activeIframe.contentWindow.dispatchEvent(iframeEvent);
-                        
-                        // 尝试将事件发送到iframe的document和body
-                        try {
-                            activeIframe.contentDocument.dispatchEvent(iframeEvent);
-                            activeIframe.contentDocument.body.dispatchEvent(iframeEvent);
-                            
-                            // 尝试将事件发送到iframe的document的activeElement
-                            if (activeIframe.contentDocument.activeElement) {
-                                activeIframe.contentDocument.activeElement.dispatchEvent(iframeEvent);
-                            }
-                        } catch (e) {
-                            // 忽略跨域错误
-                        }
-                    } catch (e) {
-                        // 忽略跨域错误
-                    }
-                    
-                    // 方法4: 尝试使用iframe的contentWindow.document.dispatchEvent
-                    try {
-                        const docEvent = new KeyboardEvent(type, {
-                            bubbles: true,
-                            cancelable: true,
-                            keyCode: keyCode,
-                            which: keyCode,
-                            code: getKeyCodeString(keyCode),
-                            key: getKeyString(keyCode)
-                        });
-                        activeIframe.contentWindow.document.dispatchEvent(docEvent);
-                    } catch (e) {
-                        // 忽略跨域错误
-                    }
-                    
-                    // 方法5: 尝试使用DOM元素注入的方式模拟按键
-                    try {
-                        // 创建一个隐藏的输入元素
-                        const input = document.createElement('input');
-                        input.style.position = 'absolute';
-                        input.style.opacity = '0';
-                        input.style.pointerEvents = 'none';
-                        document.body.appendChild(input);
-                        
-                        // 聚焦输入元素并触发按键事件
-                        input.focus();
-                        const inputEvent = new KeyboardEvent(type, {
-                            bubbles: true,
-                            cancelable: true,
-                            keyCode: keyCode,
-                            which: keyCode,
-                            code: getKeyCodeString(keyCode),
-                            key: getKeyString(keyCode)
-                        });
-                        input.dispatchEvent(inputEvent);
-                        
-                        // 移除输入元素
-                        setTimeout(() => {
-                            document.body.removeChild(input);
-                        }, 100);
-                    } catch (e) {
-                        console.log('输入元素注入失败:', e);
-                    }
-                }
-                
-                // 方法6: 尝试使用iframe内容注入的方式
-                try {
-                    if (activeIframe) {
-                        // 创建一个脚本元素
-                        const script = document.createElement('script');
-                        script.textContent = `
-                            try {
-                                const event = new KeyboardEvent('${type}', {
-                                    bubbles: true,
-                                    cancelable: true,
-                                    keyCode: ${keyCode},
-                                    which: ${keyCode},
-                                    code: '${getKeyCodeString(keyCode)}',
-                                    key: '${getKeyString(keyCode)}'
-                                });
-                                document.dispatchEvent(event);
-                                if (document.activeElement) {
-                                    document.activeElement.dispatchEvent(event);
-                                }
-                                document.body.dispatchEvent(event);
-                                window.dispatchEvent(event);
-                                console.log('内部事件已触发: ${type} ${keyCode}');
-                            } catch(e) {
-                                console.error('内部事件触发失败:', e);
-                            }
-                        `;
-                        
-                        try {
-                            activeIframe.contentDocument.head.appendChild(script);
-                            // 执行后移除脚本
-                            setTimeout(() => {
-                                try {
-                                    activeIframe.contentDocument.head.removeChild(script);
-                                } catch(e) {}
-                            }, 100);
-                        } catch(e) {
-                            // 跨域限制，无法直接注入
-                            console.log('无法注入脚本到iframe:', e);
-                        }
-                    }
-                } catch(e) {
-                    console.log('脚本注入尝试失败:', e);
-                }
-            }
-            
-            // 修改触摸事件处理函数，使用新的桥接方法
-            function handleTouchStart(keyCode, alternativeKeyCode, button) {
-                // 添加视觉反馈
-                button.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
-                button.style.transform = 'scale(0.95)';
-                
-                console.log('按下按钮:', getKeyString(keyCode));
-                
-                // 确保iframe获得焦点并重新初始化事件
-                if (activeIframe) {
-                    try {
-                        activeIframe.focus();
-                        // 重新初始化iframe的事件监听
-                        initIframeEventListeners(activeIframe);
-                    } catch (e) {
-                        console.log('聚焦或初始化事件失败:', e);
-                    }
-                }
-                
-                // 使用桥接方法发送主键码事件
-                sendKeyEventToGame(keyCode, 'keydown');
-                
-                // 如果有替代键码，也发送该事件（如WASD）
-                if (alternativeKeyCode) {
-                    sendKeyEventToGame(alternativeKeyCode, 'keydown');
-                }
-            }
-            
-            function handleTouchEnd(keyCode, alternativeKeyCode, button) {
-                // 恢复按钮样式
-                button.style.backgroundColor = '';
-                button.style.transform = '';
-                
-                console.log('释放按钮:', getKeyString(keyCode));
-                
-                // 使用桥接方法发送主键码事件
-                sendKeyEventToGame(keyCode, 'keyup');
-                
-                // 如果有替代键码，也发送该事件
-                if (alternativeKeyCode) {
-                    sendKeyEventToGame(alternativeKeyCode, 'keyup');
-                }
-            }
-            
-            // 上按钮事件 (上箭头和W)
-            controlUp.addEventListener('touchstart', function(e) {
-                e.preventDefault();
-                handleTouchStart(KEY_UP, KEY_W, this);
-            });
-            
-            controlUp.addEventListener('touchend', function() {
-                handleTouchEnd(KEY_UP, KEY_W, this);
-            });
-            
-            // 下按钮事件 (下箭头和S)
-            controlDown.addEventListener('touchstart', function(e) {
-                e.preventDefault();
-                handleTouchStart(KEY_DOWN, KEY_S, this);
-            });
-            
-            controlDown.addEventListener('touchend', function() {
-                handleTouchEnd(KEY_DOWN, KEY_S, this);
-            });
-            
-            // 左按钮事件 (左箭头和A)
-            controlLeft.addEventListener('touchstart', function(e) {
-                e.preventDefault();
-                handleTouchStart(KEY_LEFT, KEY_A, this);
-            });
-            
-            controlLeft.addEventListener('touchend', function() {
-                handleTouchEnd(KEY_LEFT, KEY_A, this);
-            });
-            
-            // 右按钮事件 (右箭头和D)
-            controlRight.addEventListener('touchstart', function(e) {
-                e.preventDefault();
-                handleTouchStart(KEY_RIGHT, KEY_D, this);
-            });
-            
-            controlRight.addEventListener('touchend', function() {
-                handleTouchEnd(KEY_RIGHT, KEY_D, this);
-            });
-            
-            // 添加鼠标事件支持（用于测试和桌面设备）
-            if (!('ontouchstart' in window) || true) { // 始终添加鼠标事件支持
-                console.log('添加鼠标事件支持');
-                
-                controlUp.addEventListener('mousedown', function(e) {
-                    e.preventDefault(); // 防止默认行为
-                    handleTouchStart(KEY_UP, KEY_W, this);
-                });
-                
-                controlUp.addEventListener('mouseup', function() {
-                    handleTouchEnd(KEY_UP, KEY_W, this);
-                });
-                
-                controlDown.addEventListener('mousedown', function(e) {
-                    e.preventDefault(); // 防止默认行为
-                    handleTouchStart(KEY_DOWN, KEY_S, this);
-                });
-                
-                controlDown.addEventListener('mouseup', function() {
-                    handleTouchEnd(KEY_DOWN, KEY_S, this);
-                });
-                
-                controlLeft.addEventListener('mousedown', function(e) {
-                    e.preventDefault(); // 防止默认行为
-                    handleTouchStart(KEY_LEFT, KEY_A, this);
-                });
-                
-                controlLeft.addEventListener('mouseup', function() {
-                    handleTouchEnd(KEY_LEFT, KEY_A, this);
-                });
-                
-                controlRight.addEventListener('mousedown', function(e) {
-                    e.preventDefault(); // 防止默认行为
-                    handleTouchStart(KEY_RIGHT, KEY_D, this);
-                });
-                
-                controlRight.addEventListener('mouseup', function() {
-                    handleTouchEnd(KEY_RIGHT, KEY_D, this);
-                });
-                
-                // 添加鼠标离开按钮时的处理
-                [controlUp, controlDown, controlLeft, controlRight].forEach(button => {
-                    button.addEventListener('mouseleave', function() {
-                        // 恢复按钮样式
-                        this.style.backgroundColor = '';
-                        this.style.transform = '';
-                    });
-                });
-            }
-            
-            // 为游戏容器添加类
-            gameIframes.forEach(iframe => {
-                const container = iframe.parentElement;
-                container.classList.add('game-container');
-                
-                // 监听全屏变化事件
-                document.addEventListener('fullscreenchange', function() {
-                    const controls = document.querySelector('.mobile-controls');
-                    if (document.fullscreenElement === iframe) {
-                        // 如果iframe进入全屏，确保控制器仍然可见
-                        controls.style.display = 'block';
-                        document.fullscreenElement.insertAdjacentElement('afterend', controls);
-                    } else if (!document.fullscreenElement) {
-                        // 如果退出全屏，将控制器放回原位
-                        document.body.appendChild(controls);
-                    }
-                });
-            });
-            
-            // 添加全屏按钮点击事件处理
-            const fullscreenButtons = document.querySelectorAll('button[onclick*="requestFullscreen"]');
-            fullscreenButtons.forEach(button => {
-                const originalOnClick = button.getAttribute('onclick');
-                button.removeAttribute('onclick');
-                button.addEventListener('click', function() {
-                    const iframe = this.previousElementSibling;
-                    iframe.requestFullscreen().catch(err => {
-                        console.error(`全屏错误: ${err.message}`);
-                    });
-                });
-            });
-            
-            // 处理移动设备方向变化
-            window.addEventListener('orientationchange', function() {
-                // 短暂延迟以确保方向变化完成
-                setTimeout(function() {
-                    const controls = document.querySelector('.mobile-controls');
-                    controls.style.display = 'block';
-                }, 300);
-            });
-            
-            // 初始化单个iframe的事件监听器
-            function initIframeEventListeners(iframe) {
-                try {
-                    // 创建一个脚本元素来注入消息接收器
-                    const script = document.createElement('script');
-                    script.textContent = `
-                        // 移除旧的事件监听器
-                        window.removeEventListener('message', window._messageHandler);
-                        window.removeEventListener('keydown', window._keydownHandler);
-                        window.removeEventListener('keyup', window._keyupHandler);
-                        
-                        // 创建新的事件处理函数
-                        window._messageHandler = function(event) {
-                            try {
-                                const data = event.data;
-                                if (data && data.type && data.keyCode) {
-                                    console.log('收到控制消息:', data);
-                                    const keyEvent = new KeyboardEvent(data.type, {
-                                        bubbles: true,
-                                        cancelable: true,
-                                        keyCode: data.keyCode,
-                                        which: data.keyCode,
-                                        code: data.code || '',
-                                        key: data.key || ''
-                                    });
-                                    document.dispatchEvent(keyEvent);
-                                    if (document.activeElement) {
-                                        document.activeElement.dispatchEvent(keyEvent);
-                                    }
-                                    document.body.dispatchEvent(keyEvent);
-                                    window.dispatchEvent(keyEvent);
-                                }
-                            } catch(e) {
-                                console.error('处理消息事件失败:', e);
-                            }
-                        };
-                        
-                        window._keydownHandler = function(e) {
-                            console.log('游戏内部收到keydown事件:', e.keyCode, e.key);
-                        };
-                        
-                        window._keyupHandler = function(e) {
-                            console.log('游戏内部收到keyup事件:', e.keyCode, e.key);
-                        };
-                        
-                        // 添加新的事件监听器
-                        window.addEventListener('message', window._messageHandler);
-                        window.addEventListener('keydown', window._keydownHandler);
-                        window.addEventListener('keyup', window._keyupHandler);
-                        
-                        console.log('已重新注册所有事件监听器');
-                    `;
-                    
-                    iframe.contentDocument.head.appendChild(script);
-                    console.log('已向iframe注入事件监听器:', iframe.src);
-                    
-                    // 执行后移除脚本
-                    setTimeout(() => {
-                        try {
-                            iframe.contentDocument.head.removeChild(script);
-                        } catch(e) {}
-                    }, 100);
-                } catch(e) {
-                    console.log('初始化iframe事件监听器失败:', e);
-                }
-            }
-            
-            // 初始化函数，确保所有功能正确设置
-            function initGameControls() {
-                console.log('初始化游戏控制器');
-                
-                // 确保控制器在移动设备上可见
-                if (window.innerWidth <= 768) {
-                    document.querySelector('.mobile-controls').style.display = 'block';
-                }
-                
-                // 设置第一个iframe为活动状态
-                if (gameIframes.length > 0) {
-                    setTimeout(() => {
-                        setActiveIframe(gameIframes[0]);
-                        console.log('已设置活动iframe:', gameIframes[0].src);
-                        
-                        // 尝试向所有iframe注入消息接收器
-                        gameIframes.forEach(iframe => {
-                            try {
-                                // 创建一个脚本元素来注入消息接收器
-                                const script = document.createElement('script');
-                                script.textContent = `
-                                    window.addEventListener('message', function(event) {
-                                        try {
-                                            const data = event.data;
-                                            if (data && data.type && data.keyCode) {
-                                                console.log('收到控制消息:', data);
-                                                const keyEvent = new KeyboardEvent(data.type, {
-                                                    bubbles: true,
-                                                    cancelable: true,
-                                                    keyCode: data.keyCode,
-                                                    which: data.keyCode,
-                                                    code: data.code || '',
-                                                    key: data.key || ''
-                                                });
-                                                document.dispatchEvent(keyEvent);
-                                                if (document.activeElement) {
-                                                    document.activeElement.dispatchEvent(keyEvent);
-                                                }
-                                                document.body.dispatchEvent(keyEvent);
-                                                window.dispatchEvent(keyEvent);
-                                            }
-                                        } catch(e) {
-                                            console.error('处理消息事件失败:', e);
-                                        }
-                                    });
-                                    console.log('已注册消息事件监听器');
-                                    
-                                    // 添加键盘事件监听器，用于调试
-                                    document.addEventListener('keydown', function(e) {
-                                        console.log('游戏内部收到keydown事件:', e.keyCode, e.key);
-                                    });
-                                    document.addEventListener('keyup', function(e) {
-                                        console.log('游戏内部收到keyup事件:', e.keyCode, e.key);
-                                    });
-                                `;
-                                
-                                iframe.contentDocument.head.appendChild(script);
-                                console.log('已向iframe注入消息接收器:', iframe.src);
-                            } catch(e) {
-                                console.log('无法向iframe注入脚本（跨域限制）:', e);
-                            }
-                        });
-                        
-                        // 添加全局消息监听器，用于调试
-                        window.addEventListener('message', function(event) {
-                            console.log('主页面收到消息:', event.data);
-                        });
-                    }, 1000);
-                }
-                
-                // 添加键盘事件监听器，用于调试
-                document.addEventListener('keydown', function(e) {
-                    console.log('主页面收到keydown事件:', e.keyCode, e.key);
-                });
-                document.addEventListener('keyup', function(e) {
-                    console.log('主页面收到keyup事件:', e.keyCode, e.key);
-                });
-            }
-            
-            // 页面加载完成后初始化
-            initGameControls();
         });
+
+        // Control button event handlers
+        Object.entries(controls).forEach(([direction, button]) => {
+            button.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                if (activeIframe) {
+                    sendKeyToGame(direction);
+                }
+            });
+
+            button.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                if (activeIframe) {
+                    releaseKeyInGame(direction);
+                }
+            });
+        });
+
+        // Send key events to game
+        function sendKeyToGame(direction) {
+            if (!activeIframe) return;
+
+            const keyMap = {
+                up: { code: 'ArrowUp', key: 'ArrowUp', keyCode: 38 },
+                down: { code: 'ArrowDown', key: 'ArrowDown', keyCode: 40 },
+                left: { code: 'ArrowLeft', key: 'ArrowLeft', keyCode: 37 },
+                right: { code: 'ArrowRight', key: 'ArrowRight', keyCode: 39 }
+            };
+
+            const event = new KeyboardEvent('keydown', keyMap[direction]);
+            activeIframe.contentWindow.dispatchEvent(event);
+
+            // Try to focus the iframe
+            try {
+                activeIframe.contentWindow.focus();
+            } catch (e) {
+                // Ignore errors
+            }
+        }
+
+        function releaseKeyInGame(direction) {
+            if (!activeIframe) return;
+
+            const keyMap = {
+                up: { code: 'ArrowUp', key: 'ArrowUp', keyCode: 38 },
+                down: { code: 'ArrowDown', key: 'ArrowDown', keyCode: 40 },
+                left: { code: 'ArrowLeft', key: 'ArrowLeft', keyCode: 37 },
+                right: { code: 'ArrowRight', key: 'ArrowRight', keyCode: 39 }
+            };
+
+            const event = new KeyboardEvent('keyup', keyMap[direction]);
+            activeIframe.contentWindow.dispatchEvent(event);
+        }
     </script>
 </body>
 </html>
