@@ -3,181 +3,231 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Car Racing Games - Experience Multiple Racing Adventures</title>
-    <meta name="description" content="Immerse yourself in multiple exciting car racing games. Experience high-speed thrills and compete against time in these addictive racing simulators.">
-    <link rel="canonical" href="https://your-domain.com/car-racing" />
-    <!-- Google Analytics Code -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-90N762QLBX"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-90N762QLBX');
-    </script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        
-        /* Mobile Controls Style */
-        .mobile-controls {
-            display: none; /* Hidden by default */
-            position: fixed;
-            bottom: 20px;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            padding: 10px;
-            text-align: center;
-        }
-        
-        .control-button {
-            width: 60px;
-            height: 60px;
-            background-color: rgba(255, 255, 255, 0.6);
-            border-radius: 50%;
-            margin: 0 10px;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        .control-button:hover {
-            background-color: rgba(255, 255, 255, 0.8);
-        }
-        
-        /* Show mobile controls on touch devices */
-        @media (hover: none) {
-            .mobile-controls {
-                display: block;
-            }
-        }
-        
-        /* Fullscreen styles */
-        .game-container {
-            position: relative;
-            width: 100%;
-            padding-top: 56.25%; /* 16:9 Aspect Ratio */
-            background-color: #000;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        
-        .game-iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        
-        /* Fullscreen mode styles */
-        :-webkit-full-screen .mobile-controls,
-        :-moz-full-screen .mobile-controls,
-        :-ms-fullscreen .mobile-controls {
-            position: fixed;
-            bottom: 30px;
-            z-index: 9999;
-            background-color: rgba(0, 0, 0, 0.2);
-            border-radius: 20px;
-            padding: 15px;
-        }
-    </style>
+    <title>3D Car Racing | Free Online Racing Games Platform</title>
+    <!-- Enhanced SEO Meta Tags -->
+    <meta name="description" content="Play the best 3D racing games free online. Enjoy unblocked driving games, realistic driving simulators, and multiplayer racing games on our platform.">
+    <meta name="keywords" content="driving games unblocked, car racing games online, 3d racing games free, realistic driving simulator, multiplayer racing games">
+    <meta name="author" content="3D Car Racing">
+    <meta name="robots" content="index, follow">
+    <!-- Open Graph Tags for Social Media -->
+    <meta property="og:title" content="3D Car Racing | Free Online Racing Games Platform">
+    <meta property="og:description" content="Play the best free 3D racing games online. Experience realistic driving simulators and multiplayer racing action directly in your browser, no downloads required.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://example.com/">
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="3D Car Racing | Free Online Racing Games Platform">
+    <meta name="twitter:description" content="Play the best free 3D racing games online. Experience realistic driving simulators and multiplayer racing action directly in your browser, no downloads required.">
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://example.com/">
+    <link rel="stylesheet" href="styles.css">
+    <!-- 删除旧的favicon，添加新的SVG图标 -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='32' cy='32' r='30' fill='url(%23bg-gradient)'/%3E%3Cpath d='M12,34 C14,32 22,33 28,33 L36,33 C42,33 47,36 50,36 C52,36 52,34 50,32 C48,30 44,28 40,28 L30,28 C27,28 21,27 18,29 C15,31 10,36 12,34 Z' fill='url(%23car-gradient)'/%3E%3Ccircle cx='18' cy='36' r='5' fill='%23151515' stroke='%23444' stroke-width='1'/%3E%3Ccircle cx='45' cy='36' r='5' fill='%23151515' stroke='%23444' stroke-width='1'/%3E%3Cpath d='M30,28 L38,28 C40,28 40,30 38,32 L32,32 C30,32 28,30 30,28 Z' fill='url(%23cockpit-gradient)'/%3E%3Cpath d='M12,34 C14,32 22,33 28,33 L36,33 C42,33 47,36 50,36 C52,36 52,34 50,32 C48,30 44,28 40,28 L30,28 C27,28 21,27 18,29 C15,31 10,36 12,34 Z' fill='none' stroke='%230a2463' stroke-width='1'/%3E%3Cpath d='M8,30 L3,32 M8,34 L2,38 M8,38 L4,42' stroke='%230a2463' stroke-width='1' stroke-linecap='round' opacity='0.7'/%3E%3Cdefs%3E%3ClinearGradient id='bg-gradient' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23ffffff'/%3E%3Cstop offset='100%25' stop-color='%23e0e0e0'/%3E%3C/linearGradient%3E%3ClinearGradient id='car-gradient' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='10%25' stop-color='%231a56db'/%3E%3Cstop offset='90%25' stop-color='%2326d0ce'/%3E%3C/linearGradient%3E%3ClinearGradient id='cockpit-gradient' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%230a2463'/%3E%3Cstop offset='100%25' stop-color='%233e92cc'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E">
+    
 </head>
-<body class="bg-gray-50">
-    <header class="bg-white shadow-sm">
-        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <div class="flex justify-between items-center">
-                <div class="text-gray-900 font-semibold text-lg">Racing Games</div>
-                <div class="hidden sm:flex space-x-8">
-                    <a href="#games" class="text-gray-600 hover:text-gray-900">Play Now</a>
-                    <a href="#about" class="text-gray-600 hover:text-gray-900">About</a>
-                    <a href="#features" class="text-gray-600 hover:text-gray-900">Features</a>
+<body>
+    <div class="wrapper">
+        <!-- Top Area -->
+        <div class="header-area">
+            <!-- Logo -->
+            <div class="logo-container">
+                <a href="/" class="logo">
+                    <!-- SVG Car Logo -->
+                    <svg class="racing-car-logo" width="45" height="30" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="32" cy="32" r="30" fill="url(#bg-gradient)"/>
+                        <path d="M12,34 C14,32 22,33 28,33 L36,33 C42,33 47,36 50,36 C52,36 52,34 50,32 C48,30 44,28 40,28 L30,28 C27,28 21,27 18,29 C15,31 10,36 12,34 Z" fill="url(#car-gradient)"/>
+                        <circle cx="18" cy="36" r="5" fill="#151515" stroke="#444" stroke-width="1"/>
+                        <circle cx="45" cy="36" r="5" fill="#151515" stroke="#444" stroke-width="1"/>
+                        <path d="M30,28 L38,28 C40,28 40,30 38,32 L32,32 C30,32 28,30 30,28 Z" fill="url(#cockpit-gradient)"/>
+                        <path d="M12,34 C14,32 22,33 28,33 L36,33 C42,33 47,36 50,36 C52,36 52,34 50,32 C48,30 44,28 40,28 L30,28 C27,28 21,27 18,29 C15,31 10,36 12,34 Z" fill="none" stroke="#0a2463" stroke-width="1"/>
+                        <path d="M8,30 L3,32 M8,34 L2,38 M8,38 L4,42" stroke="#0a2463" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+                        <defs>
+                            <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#ffffff"/>
+                                <stop offset="100%" stop-color="#e0e0e0"/>
+                            </linearGradient>
+                            <linearGradient id="car-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="10%" stop-color="#1a56db"/>
+                                <stop offset="90%" stop-color="#26d0ce"/>
+                            </linearGradient>
+                            <linearGradient id="cockpit-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#0a2463"/>
+                                <stop offset="100%" stop-color="#3e92cc"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <span class="logo-text">3D Car Racing</span>
+                </a>
+            </div>
+            
+            <!-- Keywords -->
+            <div class="keywords-container">
+                <div class="game-keywords">
+                    <a href="#" class="keyword-tag">Racing</a>
+                    <a href="#" class="keyword-tag">Speed</a>
+                    <a href="#" class="keyword-tag">Drift</a>
+                    <a href="#" class="keyword-tag">Formula</a>
+                    <a href="#" class="keyword-tag">Off-road</a>
+                    <a href="#" class="keyword-tag">Go-kart</a>
+                    <a href="#" class="keyword-tag">Rally</a>
+                    <a href="#" class="keyword-tag">Motorcycle</a>
+                    <a href="#" class="keyword-tag">Driving</a>
+                    <a href="#" class="keyword-tag">Track</a>
+                    <a href="#" class="keyword-tag">Competition</a>
+                    <a href="#" class="keyword-tag">Tuning</a>
+                    <a href="#" class="keyword-tag">Driver</a>
+                    <a href="#" class="keyword-tag">Acceleration</a>
+                    <a href="#" class="keyword-tag">Stunts</a>
+                    <a href="#" class="keyword-tag">Traffic</a>
                 </div>
-            </div>
-        </nav>
-    </header>
-
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <section class="text-center mb-16">
-            <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">Experience Multiple Racing Adventures</h1>
-            <p class="text-xl text-gray-600 max-w-3xl mx-auto">Choose your favorite racing game and push your limits in these high-octane racing simulators.</p>
-        </section>
-
-        <section id="games" class="grid lg:grid-cols-2 gap-8 mb-16">
-            <div class="relative group">
-                <div class="game-container">
-                    <iframe src="https://racing.pmnd.rs/" class="game-iframe" allowfullscreen></iframe>
-                </div>
-                <button onclick="toggleFullscreen(this.parentElement.querySelector('.game-iframe'))" 
-                        class="absolute bottom-4 right-4 bg-white/80 hover:bg-white px-4 py-2 rounded-lg shadow-sm text-gray-700 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                    Fullscreen
-                </button>
-            </div>
-            <div class="relative group">
-                <div class="game-container">
-                    <iframe src="https://hexgl.bkcore.com/play/" class="game-iframe" allowfullscreen></iframe>
-                </div>
-                <button onclick="toggleFullscreen(this.parentElement.querySelector('.game-iframe'))" 
-                        class="absolute bottom-4 right-4 bg-white/80 hover:bg-white px-4 py-2 rounded-lg shadow-sm text-gray-700 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                    Fullscreen
-                </button>
-            </div>
-        </section>
-
-        <section id="about" class="mb-16">
-            <h2 class="text-3xl font-bold text-gray-900 mb-6">About the Games</h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="space-y-4">
-                    <p class="text-gray-600">Immerse yourself in two distinct racing experiences where every second counts. Master different tracks, improve your lap times, and compete for the top position in each unique game.</p>
-                    <p class="text-gray-600">Whether you prefer futuristic hover racing or classic car racing, we've got you covered with these exciting options.</p>
-                </div>
-                <div class="space-y-4">
-                    <h3 class="text-xl font-semibold text-gray-900">Game Features</h3>
-                    <ul class="list-disc list-inside text-gray-600 space-y-2">
-                        <li>Two unique racing experiences</li>
-                        <li>Realistic physics engines</li>
-                        <li>Smooth controls and responsive handling</li>
-                        <li>Multiple racing tracks</li>
-                        <li>Performance statistics</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <section id="features" class="grid md:grid-cols-3 gap-8">
-            <div class="bg-white p-6 rounded-lg shadow-sm">
-                <h2 class="text-xl font-semibold text-gray-900 mb-4">Multiple Games</h2>
-                <p class="text-gray-600">Choose between two exciting racing experiences, each with its unique style and challenges.</p>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow-sm">
-                <h2 class="text-xl font-semibold text-gray-900 mb-4">Smooth Controls</h2>
-                <p class="text-gray-600">Enjoy precise and responsive controls that give you complete command over your vehicles.</p>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow-sm">
-                <h2 class="text-xl font-semibold text-gray-900 mb-4">Cross-Platform</h2>
-                <p class="text-gray-600">Play seamlessly across all your devices with our responsive design.</p>
-            </div>
-        </section>
-    </main>
-
-    <footer class="bg-gray-900 text-white mt-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div class="text-center">
-                <p class="text-gray-400">&copy; 2024 Racing Games. All rights reserved.</p>
-                <p class="text-gray-400 mt-2">Contact: <a href="mailto:service@usee-world.com" class="hover:text-white">service@usee-world.com</a></p>
             </div>
         </div>
-    </footer>
-
-    <div class="mobile-controls">
-        <button class="control-button" id="btnUp">↑</button>
-        <div class="flex justify-center space-x-4">
-            <button class="control-button" id="btnLeft">←</button>
-            <button class="control-button" id="btnDown">↓</button>
-            <button class="control-button" id="btnRight">→</button>
+        
+        <!-- Game Title Area -->
+        <div class="games-heading">
+            <div class="heading-wrapper">
+                <h2>Popular Racing Games</h2>
+                
+                <!-- Search Bar -->
+                <div class="search-container">
+                    <div class="search-wrapper">
+                        <input type="text" id="game-search" class="search-input" placeholder="Search racing games..." autocomplete="off">
+                        <button id="search-btn" class="search-button">
+                            <svg class="search-icon" viewBox="0 0 24 24">
+                                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                            </svg>
+                        </button>
+                        <div id="search-suggestions" class="search-suggestions"></div>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <!-- Embedded Games Section -->
+        <div class="games-direct">
+            <div class="game-section">
+                <h3 class="game-title">3D Racing</h3>
+                <div class="direct-game-container relative group">
+                    <iframe src="https://racing.pmnd.rs/" class="direct-game-iframe" allowfullscreen></iframe>
+                    <button onclick="toggleFullscreen(this.parentElement.querySelector('.direct-game-iframe'))" 
+                            class="fullscreen-btn">Fullscreen</button>
+                </div>
+            </div>
+            
+            <div class="game-section">
+                <h3 class="game-title">HexGL</h3>
+                <div class="direct-game-container relative group">
+                    <iframe src="https://hexgl.bkcore.com/play/" class="direct-game-iframe" allowfullscreen></iframe>
+                    <button onclick="toggleFullscreen(this.parentElement.querySelector('.direct-game-iframe'))" 
+                            class="fullscreen-btn">Fullscreen</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Grid - Irregular Tile Layout -->
+        <div class="games-heading">
+            <div class="heading-wrapper">
+                <h2>More Games</h2>
+            </div>
+        </div>
+        
+        <div class="games-direct more-games">
+            <div class="game-section">
+                <h3 class="game-title">3D Racing Simulator</h3>
+                <div class="direct-game-container relative group">
+                    <iframe src="https://microstudio.io/Skaruts/sk_pseudo3d_racing/" class="direct-game-iframe" allowfullscreen></iframe>
+                    <button onclick="toggleFullscreen(this.parentElement.querySelector('.direct-game-iframe'))" 
+                            class="fullscreen-btn">Fullscreen</button>
+                </div>
+            </div>
+            
+            <div class="game-section">
+                <h3 class="game-title">Racing Demo</h3>
+                <div class="direct-game-container relative group">
+                    <iframe src="https://microstudio.io/gilles/racingdemo/" class="direct-game-iframe" allowfullscreen></iframe>
+                    <button onclick="toggleFullscreen(this.parentElement.querySelector('.direct-game-iframe'))" 
+                            class="fullscreen-btn">Fullscreen</button>
+                </div>
+            </div>
+            
+            <div class="game-section">
+                <h3 class="game-title">2K4D Racer</h3>
+                <div class="direct-game-container relative group">
+                    <iframe src="https://microstudio.io/KOOLSKULL/2k4dracer/" class="direct-game-iframe" allowfullscreen></iframe>
+                    <button onclick="toggleFullscreen(this.parentElement.querySelector('.direct-game-iframe'))" 
+                            class="fullscreen-btn">Fullscreen</button>
+                </div>
+            </div>
+            
+            <div class="game-section">
+                <h3 class="game-title">Night Drive</h3>
+                <div class="direct-game-container relative group">
+                    <iframe src="https://microstudio.io/jaysnjj/nightdrive/" class="direct-game-iframe" allowfullscreen></iframe>
+                    <button onclick="toggleFullscreen(this.parentElement.querySelector('.direct-game-iframe'))" 
+                            class="fullscreen-btn">Fullscreen</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Website Info Section -->
+        <div class="info-section">
+            <h1>Free Online Games</h1>
+            <p>3D Car Racing is a free online gaming platform offering mini-games for everyone. We've gathered the best games available, including a range of free, fun, and engaging titles. New games are added daily, so you can always enjoy the latest releases.</p>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <!-- Footer Logo -->
+                    <svg class="racing-car-logo footer-racing-car-logo" width="38" height="25" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="32" cy="32" r="30" fill="url(#footer-bg-gradient)"/>
+                        <path d="M12,34 C14,32 22,33 28,33 L36,33 C42,33 47,36 50,36 C52,36 52,34 50,32 C48,30 44,28 40,28 L30,28 C27,28 21,27 18,29 C15,31 10,36 12,34 Z" fill="url(#footer-car-gradient)"/>
+                        <circle cx="18" cy="36" r="5" fill="#151515" stroke="#444" stroke-width="1"/>
+                        <circle cx="45" cy="36" r="5" fill="#151515" stroke="#444" stroke-width="1"/>
+                        <path d="M30,28 L38,28 C40,28 40,30 38,32 L32,32 C30,32 28,30 30,28 Z" fill="url(#footer-cockpit-gradient)"/>
+                        <path d="M12,34 C14,32 22,33 28,33 L36,33 C42,33 47,36 50,36 C52,36 52,34 50,32 C48,30 44,28 40,28 L30,28 C27,28 21,27 18,29 C15,31 10,36 12,34 Z" fill="none" stroke="#0a2463" stroke-width="1"/>
+                        <path d="M8,30 L3,32 M8,34 L2,38 M8,38 L4,42" stroke="#0a2463" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+                        <defs>
+                            <linearGradient id="footer-bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#ffffff"/>
+                                <stop offset="100%" stop-color="#e0e0e0"/>
+                            </linearGradient>
+                            <linearGradient id="footer-car-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="10%" stop-color="#1a56db"/>
+                                <stop offset="90%" stop-color="#26d0ce"/>
+                            </linearGradient>
+                            <linearGradient id="footer-cockpit-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#0a2463"/>
+                                <stop offset="100%" stop-color="#3e92cc"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <p>Let the world play</p>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>About Us</h4>
+                        <ul>
+                            <li><a href="about.html" target="_blank">Company Profile</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Information</h4>
+                        <ul>
+                            <li><a href="cookie.html" target="_blank">Cookie Policy</a></li>
+                            <li><a href="terms.html" target="_blank">Terms</a></li>
+                            <li><a href="cooperation.html" target="_blank">Cooperation</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 3D Car Racing. All rights reserved.</p>
+            </div>
+        </footer>
     </div>
 
     <script>
@@ -201,76 +251,145 @@
                 }
             }
         }
-
-        // Mobile controls
-        const controls = {
-            up: document.getElementById('btnUp'),
-            down: document.getElementById('btnDown'),
-            left: document.getElementById('btnLeft'),
-            right: document.getElementById('btnRight')
-        };
-
-        let activeIframe = null;
-
-        // Handle iframe focus
-        document.querySelectorAll('.game-iframe').forEach(iframe => {
-            iframe.addEventListener('click', () => {
-                activeIframe = iframe;
-            });
-        });
-
-        // Control button event handlers
-        Object.entries(controls).forEach(([direction, button]) => {
-            button.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-                if (activeIframe) {
-                    sendKeyToGame(direction);
-                }
-            });
-
-            button.addEventListener('touchend', (e) => {
-                e.preventDefault();
-                if (activeIframe) {
-                    releaseKeyInGame(direction);
-                }
-            });
-        });
-
-        // Send key events to game
-        function sendKeyToGame(direction) {
-            if (!activeIframe) return;
-
-            const keyMap = {
-                up: { code: 'ArrowUp', key: 'ArrowUp', keyCode: 38 },
-                down: { code: 'ArrowDown', key: 'ArrowDown', keyCode: 40 },
-                left: { code: 'ArrowLeft', key: 'ArrowLeft', keyCode: 37 },
-                right: { code: 'ArrowRight', key: 'ArrowRight', keyCode: 39 }
-            };
-
-            const event = new KeyboardEvent('keydown', keyMap[direction]);
-            activeIframe.contentWindow.dispatchEvent(event);
-
-            // Try to focus the iframe
-            try {
-                activeIframe.contentWindow.focus();
-            } catch (e) {
-                // Ignore errors
-            }
-        }
-
-        function releaseKeyInGame(direction) {
-            if (!activeIframe) return;
-
-            const keyMap = {
-                up: { code: 'ArrowUp', key: 'ArrowUp', keyCode: 38 },
-                down: { code: 'ArrowDown', key: 'ArrowDown', keyCode: 40 },
-                left: { code: 'ArrowLeft', key: 'ArrowLeft', keyCode: 37 },
-                right: { code: 'ArrowRight', key: 'ArrowRight', keyCode: 39 }
-            };
-
-            const event = new KeyboardEvent('keyup', keyMap[direction]);
-            activeIframe.contentWindow.dispatchEvent(event);
-        }
     </script>
+    
+    <!-- Developer Info Modal -->
+    <div class="modal-overlay" id="modal-overlay"></div>
+    
+    <!-- Submit Game Modal -->
+    <div class="dev-modal" id="submit-game-modal">
+        <div class="modal-content">
+            <h2>How to Submit Your Game</h2>
+            <div class="modal-body">
+                <h3>Submit Your Game to 3D Car Racing Platform</h3>
+                <p>We welcome all types of high-quality racing and driving games. Here are the steps to submit your game:</p>
+                
+                <div class="submission-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Prepare Your Game</h4>
+                            <p>Ensure your game is complete and runs smoothly in an HTML5 environment. We support games built with HTML5, WebGL, or other web technologies.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Prepare Game Materials</h4>
+                            <p>Prepare the following materials:</p>
+                            <ul>
+                                <li>Game title and brief description</li>
+                                <li>Game screenshots (at least 3, 1280×720 or higher resolution)</li>
+                                <li>Game controls instructions</li>
+                                <li>Technical information (technologies used, compatibility, etc.)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Fill Out the Submission Form</h4>
+                            <p>Create an account through our <a href="#" class="highlight-link">Developer Portal</a> and fill out the game submission form. You'll need to provide your game's URL or upload the game files.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Wait for Review</h4>
+                            <p>Our team will review your game within 5 business days. Once approved, your game will be launched on our platform.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="requirements">
+                    <h3>Game Requirements</h3>
+                    <ul>
+                        <li>Must be racing or driving related games</li>
+                        <li>Support for major browsers (Chrome, Firefox, Safari, Edge)</li>
+                        <li>Mobile device compatibility (recommended but not required)</li>
+                        <li>Loading time within reasonable limits</li>
+                        <li>No malicious code or inappropriate content</li>
+                    </ul>
+                </div>
+            </div>
+            <button class="modal-close">Close</button>
+        </div>
+    </div>
+    
+    <!-- Contact Us Modal -->
+    <div class="dev-modal" id="contact-modal">
+        <div class="modal-content">
+            <h2>Contact Us</h2>
+            <div class="modal-body">
+                <div class="contact-info">
+                    <p>Whether you have questions, suggestions, or partnership proposals, we look forward to hearing from you.</p>
+                    
+                    <div class="contact-methods">
+                        <div class="contact-method">
+                            <h3>Developer Support</h3>
+                            <p><i class="icon-email"></i> service@usee-world.com</p>
+                            <p>Game submissions, technical issues, and other developer-related questions</p>
+                        </div>
+                        
+                        <div class="contact-method">
+                            <h3>Business Cooperation</h3>
+                            <p><i class="icon-email"></i> service@usee-world.com</p>
+                            <p>Advertising, sponsorship, and other business cooperation opportunities</p>
+                        </div>
+                        
+                        <div class="contact-method">
+                            <h3>User Support</h3>
+                            <p><i class="icon-email"></i> service@usee-world.com</p>
+                            <p>Account issues, game feedback, and general inquiries</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-form">
+                        <h3>Send Message</h3>
+                        <form id="contact-form">
+                            <div class="form-group">
+                                <label for="name">Your Name</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="subject">Subject</label>
+                                <select id="subject" name="subject">
+                                    <option value="developer">Developer Support</option>
+                                    <option value="business">Business Cooperation</option>
+                                    <option value="support">User Support</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Your Message</label>
+                                <textarea id="message" name="message" rows="5" required></textarea>
+                            </div>
+                            <button type="submit" class="submit-btn">Send Message</button>
+                        </form>
+                    </div>
+                    
+                    <div class="social-media">
+                        <h3>Follow Us</h3>
+                        <div class="social-icons">
+                            <a href="#" class="social-icon"><i class="icon-twitter"></i></a>
+                            <a href="#" class="social-icon"><i class="icon-facebook"></i></a>
+                            <a href="#" class="social-icon"><i class="icon-instagram"></i></a>
+                            <a href="#" class="social-icon"><i class="icon-discord"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="modal-close">Close</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
-</html>
+</html> 
